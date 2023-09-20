@@ -43,10 +43,9 @@ const useLogin = () => {
       setError(req.error);
       form.reset();
       return;
-    } 
+    }
     if (req?.ok) {
-        // console.log(req)
-      router.push('/dashboard');
+      return router.push('/dashboard');
     }
   }
 
