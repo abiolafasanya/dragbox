@@ -2,7 +2,6 @@
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { Button } from '../ui/button';
 import { Fragment } from 'react';
-import Link from 'next/link';
 
 const Header = () => {
   const { data: session } = useSession();
@@ -16,7 +15,7 @@ const Header = () => {
         <div className='flex gap-2 items-center'>
           {session && session.user ? (
             <Fragment>
-              <span className='sm:hidden md:inline-flex'>{session.user.email}</span>
+              <span className='hidden md:inline-flex'>{session.user.email}</span>
               <Button variant={'default'} onClick={() => signOut()}>
                 Logout
               </Button>

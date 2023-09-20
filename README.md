@@ -1,6 +1,6 @@
 # DragBox
 
-### how to run
+### Guide
 
 > clone the repository
 ```bash
@@ -21,5 +21,15 @@ npm run dev | npm start
 > username: user@example.com
 > password: 1Password
 
-> Click on login to login or click on get started to visit dahboard
+> Click on login to signin or click on get started to visit dahboard
 
+## Built with
++ NextJs 13.5
++ TailwindCss
++ NextAuth
+
+## Features
++ Browse Gallery
++ Search Image
++ Drag and Drop
++ Upload
