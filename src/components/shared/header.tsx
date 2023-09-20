@@ -16,7 +16,7 @@ const Header = () => {
         <div className='flex gap-2 items-center'>
           {session && session.user ? (
             <Fragment>
-              <span className='sm:hidden inline-flex'>{session.user.email}</span>
+              <span className='sm:hidden md:inline-flex'>{session.user.email}</span>
               <Button variant={'default'} onClick={() => signOut()}>
                 Logout
               </Button>
