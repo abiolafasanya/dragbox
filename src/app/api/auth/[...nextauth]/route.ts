@@ -4,6 +4,7 @@ import { PrismaAdapter } from '@auth/prisma-adapter';
 import AuthController from '@/utility/controller';
 import db from '@/lib/db';
 
+const secret ='pro2r7Bv1Q70G3ISOJnQWxr3BPORMIuE1IaSkxY1dYs='
 const options: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   providers: [
@@ -54,7 +55,7 @@ const options: NextAuthOptions = {
     // error: '/auth/error', // Error code passed in query string as ?error=
     // verifyRequest: '/auth/verify-request', // Used for check email page
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET || secret,
   session: {
     // Choose how you want to save the user session.
     // The default is `"jwt"`, an encrypted JWT (JWE) stored in the session cookie.
@@ -76,7 +77,7 @@ const options: NextAuthOptions = {
   jwt: {
     // A secret to use for key generation - you should set this explicitly
     // Defaults to NextAuth.js secret.
-    secret: process.env.NEXTAUTH_SECRET,
+    secret: process.env.NEXTAUTH_SECRET || secret,
     maxAge: 60 * 60 * 1 * 1, // 30 days
     // Set to true to use encryption (default: false)
     // encryption: true,
