@@ -1,18 +1,18 @@
 import Header from '@/components/shared/header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Content from './components/content';
-import db from '@/lib/db';
 import { getServerSession } from 'next-auth';
 import { options } from '../api/auth/[...nextauth]/route';
 import { redirect } from 'next/navigation';
 import { Fragment } from 'react';
+
 
 const Dashboard = async () => {
   const session = await getServerSession(options);
   if (!session) {
     redirect('/auth');
   }
-  const images = await db.upload.findMany();
+
   return (
     <Fragment>
       {session ? (
@@ -24,7 +24,7 @@ const Dashboard = async () => {
                 <CardTitle>Dashboard</CardTitle>
               </CardHeader>
               <CardContent>
-                <Content images={images} />
+                <Content />
               </CardContent>
             </Card>
           </div>

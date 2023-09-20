@@ -2,6 +2,7 @@
 
 import { Upload } from '@prisma/client';
 import { useState } from 'react';
+import useGallery from './useGallery';
 
 interface Props {
   uploads: Upload[];
@@ -10,18 +11,21 @@ interface Props {
 const useSearch = ({ uploads }: Props) => {
   const images = uploads;
   const [loading, setLoading] = useState(true);
+  const [typing, setTyping] = useState(true);
   const [result, setResult] = useState<Upload | null>(null);
 
   async function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
-    setResult(null)
+    setTyping(true)
+    setResult(null);
     setLoading(true);
     const query = e.target.value;
 
-    images.filter((image) => {
+    images.filter((image) => {  
       if (image.tag === query) {
         setResult(image);
-      }
-      setLoading(false);
+        setLoading(false);
+        setTyping(false)
+      } 
     });
   }
 
@@ -29,6 +33,7 @@ const useSearch = ({ uploads }: Props) => {
     result,
     handleSearch,
     loading,
+    typing,
   };
 };
 

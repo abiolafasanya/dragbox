@@ -1,6 +1,7 @@
 'use client';
 
 import { useToast } from '@/components/ui/use-toast';
+import Axios from '@/lib/Axios';
 import { Upload } from '@prisma/client';
 import { useEffect, useRef, useState } from 'react';
 
@@ -8,17 +9,45 @@ interface Props {
   uploads: Upload[];
 }
 
-const useGallery = ({ uploads }: Props) => {
+const useGallery = () => {
   const [images, setImages] = useState<Upload[]>([]);
   const [loading, setLoading] = useState(true);
   const dragItem = useRef<any>(null);
   const dragOverItem = useRef<any>(null);
   const [currentHover, setCurrentHover] = useState<number | null>(null);
   const { toast } = useToast();
+  const [isFilter, setIsFilter] = useState(false);
+
+  async function updateGallery() {
+    const { data, status } = await Axios.get('/api/upload');
+    if (status === 200) {
+      setImages(data.uploads as Upload[]);
+    }
+    setImages((images) => images);
+    setLoading(false);
+  }
+
+  function reset() {
+    updateGallery()
+  }
+
+  async function filterGallery(tag: string) {
+    const { data, status } = await Axios.get<{ uploads: Upload[] }>(
+      '/api/upload'
+    );
+    if (status === 200) {
+      // console.log(data);
+      const filterImage = data.uploads.filter((upload) => upload.tag === tag);
+      // console.log(filterImage);
+      setImages(() => filterImage);
+      setLoading(false);
+      return;
+    }
+    updateGallery();
+  }
 
   async function handleSetImages() {
-    await setImages(uploads);
-    setLoading(false);
+    await updateGallery();
   }
 
   useEffect(() => {
@@ -55,6 +84,8 @@ const useGallery = ({ uploads }: Props) => {
     handlSorting,
     handleDragEnter,
     loading,
+    reset,
+    filterGallery,
   };
 };
 

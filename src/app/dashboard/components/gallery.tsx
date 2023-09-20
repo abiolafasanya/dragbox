@@ -1,15 +1,11 @@
 'use client';
-import { Upload } from '@prisma/client';
 import { Fragment } from 'react';
 import GalleryLoader from './gallery-loader';
 import useGallery from '../useGallery';
 import ImageCard from './ImageCard';
 import SearchBox from './search';
 
-interface Props {
-  uploads: Upload[];
-}
-const Gallery = ({ uploads }: Props) => {
+const Gallery = () => {
   const {
     currentHover,
     dragItem,
@@ -17,10 +13,12 @@ const Gallery = ({ uploads }: Props) => {
     handleDragEnter,
     images,
     loading,
-  } = useGallery({ uploads });
+    filterGallery,
+    reset,
+  } = useGallery();
   return (
     <section className='w-full-h-full'>
-      <SearchBox images={images} />
+      <SearchBox images={images} filter={filterGallery} reset={reset} />
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
         {loading ? <GalleryLoader count={4} /> : null}
         {!loading ? (
@@ -39,7 +37,7 @@ const Gallery = ({ uploads }: Props) => {
               ))}
           </Fragment>
         ) : (
-          <p>No image found!</p>
+          <p>Loading...</p>
         )}
       </div>
     </section>
