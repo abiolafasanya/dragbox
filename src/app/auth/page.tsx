@@ -6,8 +6,15 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import LoginForm from './components/login-form';
+import { redirect } from 'next/navigation';
+import { getServerSession } from 'next-auth';
+import { options } from '../api/auth/[...nextauth]/route';
 
-const Login = () => {
+const Login = async () => {
+  const session = await getServerSession(options);
+  if (session) {
+    redirect('/dashboard');
+  }
   return (
     <div className='flex w-full items-center justify-center p-5  min-h-screen'>
       <Card className='max-w-sm mx-auto'>
