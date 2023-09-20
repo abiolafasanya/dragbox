@@ -30,7 +30,7 @@ const useLogin = () => {
 
   async function onSubmit(values: FormSchemaType) {
     setError('');
-    console.log(values);
+    // console.log(values);
     const { password, username } = values;
     const req = await signIn('credentials', {
       username,
@@ -45,7 +45,7 @@ const useLogin = () => {
       return;
     } 
     if (req?.ok) {
-        console.log(req)
+        // console.log(req)
       router.push('/dashboard');
     }
   }
