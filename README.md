@@ -16,5 +16,10 @@ npm install
 ```bash
 npm run dev | npm start
 ```
+## Demo Login Crdentials
 
+> username: user@example.com
+> password: 1Password
+
+> Click on login to login or click on get started to visit dahboard
 
