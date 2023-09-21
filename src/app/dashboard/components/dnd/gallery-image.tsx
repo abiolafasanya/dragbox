@@ -30,7 +30,7 @@ const GalleryImages = ({
         strategy={rectSortingStrategy}
         items={images.map((image, index) => ({ ...image, id: index + 1}))}
       >
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
+        <div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
           <Fragment>
             {images.length > 0 &&
               images.map((image, index) => (
