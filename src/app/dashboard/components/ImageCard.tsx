@@ -11,6 +11,7 @@ interface Props {
   dragItem: any;
   handlSorting: (e: DragEvent<HTMLDivElement>) => void;
   handleDragEnter: (index: number) => void;
+  isDraggable: boolean;
 }
 
 const ImageCard = ({
@@ -20,6 +21,7 @@ const ImageCard = ({
   dragItem,
   handlSorting,
   handleDragEnter,
+  
 }: Props) => {
   return (
     <div

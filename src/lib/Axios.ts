@@ -1,16 +1,14 @@
 import axios from 'axios';
 
 let API_URI;
-const apiURL = 'https://dragboxs.vercel.app'
 if (process.env.NODE_ENV === 'production') {
-  API_URI = process.env.NEXTAUTH_URL || apiURL;
+  API_URI = 'https://dragboxs.vercel.app';
 } else {
-  API_URI = apiURL;
+  API_URI = 'http://localhost:3000';
 }
 
 const Axios = axios.create({
   baseURL: API_URI,
 });
-
 
 export default Axios;

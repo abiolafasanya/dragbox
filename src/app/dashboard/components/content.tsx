@@ -1,7 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import UploadForm from './upload-form';
-import Gallery from './gallery';
-import { Upload } from '@prisma/client';
+import Gallery from './dnd/gallery';
 
 const Content = () => {
   return (

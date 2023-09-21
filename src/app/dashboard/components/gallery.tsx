@@ -33,6 +33,7 @@ const Gallery = () => {
                   dragItem={dragItem}
                   handlSorting={handlSorting}
                   handleDragEnter={handleDragEnter}
+                  isDraggable
                 />
               ))}
           </Fragment>
