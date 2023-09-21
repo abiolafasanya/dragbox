@@ -44,7 +44,7 @@ const GalleryItem = ({
 
   return (
     <article
-      className=''
+      className='w-full'
       ref={setNodeRef}
       style={style}
       {...attributes}

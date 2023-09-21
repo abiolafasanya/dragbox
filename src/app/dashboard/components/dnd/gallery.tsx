@@ -47,7 +47,7 @@ const Gallery = () => {
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
       >
-        <div className='container'>
+        <div className='w-full'>
           <GalleryImages
             isLoading={loading}
             currentHover={currentHover as number}
