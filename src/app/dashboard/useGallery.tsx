@@ -49,6 +49,10 @@ const useGallery = () => {
 
     imagesCopy.splice(over.data.current.sortable.index, 0, draggedImage);
     setImages(imagesCopy);
+    toast({
+      title: 'Image Position Changed',
+      description: 'You have successfully sorted an and updated the gallery',
+    });
   };
 
   async function filterGallery(tag: string) {
