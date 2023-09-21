@@ -16,7 +16,6 @@ const useGallery = () => {
   const dragOverItem = useRef<any>(null);
   const [currentHover, setCurrentHover] = useState<number | null>(null);
   const { toast } = useToast();
-  const [isFilter, setIsFilter] = useState(false);
 
   async function updateGallery() {
     const { data, status } = await Axios.get('/api/upload');
@@ -30,6 +29,27 @@ const useGallery = () => {
   function reset() {
     updateGallery()
   }
+
+  const handleDragEnd = ({ active, over }: any) => {
+    if (
+      !active.data.current ||
+      !active.data.current.sortable ||
+      !over ||
+      !over.data.current ||
+      !over.data.current.sortable
+    ) {
+      return;
+    }
+
+    const imagesCopy = [...images];
+    const [draggedImage] = imagesCopy.splice(
+      active.data.current.sortable.index,
+      1
+    );
+
+    imagesCopy.splice(over.data.current.sortable.index, 0, draggedImage);
+    setImages(imagesCopy);
+  };
 
   async function filterGallery(tag: string) {
     const { data, status } = await Axios.get<{ uploads: Upload[] }>(
@@ -86,6 +106,8 @@ const useGallery = () => {
     loading,
     reset,
     filterGallery,
+    handleDragEnd,
+    setImages
   };
 };
 
