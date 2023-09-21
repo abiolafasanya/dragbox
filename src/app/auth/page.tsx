@@ -8,10 +8,10 @@ import {
 import LoginForm from './components/login-form';
 import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
-import { options } from '../api/auth/[...nextauth]/route';
+import { authOptions } from '../api/auth/[...nextauth]/route';
 
 const Login = async () => {
-  const session = await getServerSession(options);
+  const session = await getServerSession(authOptions);
   if (session) {
     redirect('/dashboard');
   }

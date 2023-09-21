@@ -13,9 +13,9 @@ export default function Home() {
 
   return (
     <div className=' bg-indigo-50'>
-      <main className='flex min-h-screen flex-col items-center max-w-[1280px] m-auto justify-between py-10 sm:mb-10 md:mb-0 px-5 lg:px-20'>
+      <main className='flex min-h-screen flex-col items-center max-w-[1280px] m-auto justify-center  py-7 sm:mb-10 md:mb-0 px-5 lg:px-20'>
         <Header />
-        <div className='flex flex-col md:flex-row gap-5 mt-5 justify-between items-center'>
+        <div className='flex flex-col md:flex-row md:py-10 gap-5 justify-between items-center'>
           <div className='flex flex-col lg:w-[60%]items-center'>
             <Image
               src='/welcome.gif'

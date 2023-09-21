@@ -5,7 +5,7 @@ import AuthController from '@/utility/controller';
 import db from '@/lib/db';
 
 const secret ='pro2r7Bv1Q70G3ISOJnQWxr3BPORMIuE1IaSkxY1dYs='
-export const options: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   providers: [
     // OAuth authent ication providers...
@@ -103,6 +103,6 @@ export const options: NextAuthOptions = {
   },
 };
 
-const handler = NextAuth(options);
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
