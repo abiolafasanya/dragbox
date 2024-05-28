@@ -8,19 +8,18 @@ import { useState } from "react";
 import { useAuth } from "@/hooks/auth";
 
 const formSchema = z.object({
-  username: z.string().email().nonempty().max(50).trim(),
+  email: z.string().email().nonempty().max(50).trim(),
   password: z.string().nonempty().max(50).trim(),
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
 const defaultValues: FormSchemaType = {
-  username: "",
+  email: "",
   password: "",
 };
 
 const useLogin = () => {
-  const router = useRouter();
   const [error, setError] = useState("");
   const { login, status } = useAuth();
   const form = useForm<FormSchemaType>({
@@ -30,10 +29,9 @@ const useLogin = () => {
 
   async function onLogin(values: FormSchemaType) {
     form.control._updateFormState({ isLoading: true });
-    console.log(values);
     setError("");
-    const { password, username } = values;
-    await login({ email: username, password });
+    const { password, email } = values;
+    await login({ email, password });
 
     setTimeout(() => {
       form.control._updateFormState({ isLoading: status === "success" });
@@ -42,10 +40,9 @@ const useLogin = () => {
   }
   async function onRegister(values: FormSchemaType) {
     form.control._updateFormState({ isLoading: true });
-    console.log(values);
     setError("");
-    const { password, username } = values;
-    await login({ email: username, password });
+    const { password, email } = values;
+    await login({ email, password });
 
     setTimeout(() => {
       form.control._updateFormState({ isLoading: status === "success" });

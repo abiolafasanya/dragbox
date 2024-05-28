@@ -32,13 +32,13 @@ const LoginForm = ({
           <form method="post" onSubmit={form.handleSubmit(onLogin)} className="space-y-8">
             <FormField
               control={form.control}
-              name="username"
+              name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="username"
+                      placeholder="email"
                       {...field}
                       disabled={isLoading}
                     />
@@ -105,13 +105,13 @@ const LoginForm = ({
           <form method="post" onSubmit={form.handleSubmit(onRegister)} className="space-y-8">
             <FormField
               control={form.control}
-              name="username"
+              name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="username"
+                      placeholder="email"
                       {...field}
                       disabled={isLoading}
                     />
