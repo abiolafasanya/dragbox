@@ -19,6 +19,7 @@ function GalleryImages({
   isTouchDevice,
   images,
 }: Props<ImageDataFile>) {
+  const { toggleModal, updateModalIndex } = useModal();
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -26,7 +27,6 @@ function GalleryImages({
       </div>
     );
   } else {
-    const { toggleModal, updateModalIndex } = useModal();
     function handleSelectImage(index: number) {
       if (updateModalIndex) {
         updateModalIndex(index);
@@ -41,9 +41,7 @@ function GalleryImages({
           strategy={rectSortingStrategy}
           items={images.map((image, index) => ({ ...image, id: index + 1 }))}
         >
-          <div
-            className="relative group w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2"
-            >
+          <div className="relative group w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
             <Fragment>
               {images.length > 0 &&
                 images.map((image, index) => (

@@ -24,6 +24,7 @@ function GalleryImages({
   isTouchDevice,
   images,
 }: Props<DocumentData>) {
+  const { toggleModal, updateModalIndex } = useModal();
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -31,7 +32,6 @@ function GalleryImages({
       </div>
     );
   } else {
-    const { toggleModal, updateModalIndex } = useModal();
     function handleSelectImage(index: number) {
       if (updateModalIndex) {
         updateModalIndex(index);

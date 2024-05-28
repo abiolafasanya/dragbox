@@ -79,8 +79,6 @@ export default function CarouselModal() {
     updateModalIndex(modalIndex === 0 ? images.length - 1 : modalIndex - 1);
   };
 
-  if (!isOpen) return null;
-
   useEffect(() => {
     if (!updateModalIndex) return;
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -111,6 +109,8 @@ export default function CarouselModal() {
     };
   }, [modalIndex, isOpen, images.length, toggleModal, updateModalIndex]);
 
+  if (!isOpen) return null;
+  
   return (
     <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-40">
       <div className="flex justify-center items-center h-full">
@@ -193,7 +193,6 @@ export function UserCarouselModal({
 }: {
   images?: DocumentData[] | null;
 }) {
-  // const [images, setImages] = useState<DocumentData[]>(userImages ?? []);
   const { modalIndex, isOpen, toggleModal, updateModalIndex } = useModal();
 
   const handleNextImage = () => {
@@ -205,9 +204,6 @@ export function UserCarouselModal({
     if (!images) return;
     updateModalIndex(modalIndex === 0 ? images.length - 1 : modalIndex - 1);
   };
-
-  if (!isOpen) return null;
-  if (!images || images.length === 0) return;
 
   useEffect(() => {
     if (!updateModalIndex) return;
@@ -241,9 +237,8 @@ export function UserCarouselModal({
     };
   }, [modalIndex, isOpen, images?.length, toggleModal, updateModalIndex]);
 
-  {
-    console.log(images);
-  }
+  if (!isOpen) return null;
+  if (!images || images.length === 0) return;
 
   return (
     <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-40">
