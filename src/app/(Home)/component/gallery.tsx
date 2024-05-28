@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   DndContext,
@@ -8,17 +8,16 @@ import {
   MouseSensor,
   TouchSensor,
   useSensor,
-} from '@dnd-kit/core';
-import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
-import GalleryImages from './gallery-image';
-import useGallery from '../../useGallery';
-import SearchBox from '../search';
-import { useEffect, useState } from 'react';
+} from "@dnd-kit/core";
+import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+import GalleryImages from "./gallery-image";
+import React, { useEffect, useState } from "react";
+import {useGallery} from "../hooks/useGallery";
 
 const Gallery = () => {
   const [isTouchDevice, setIsTouchDevice] = useState(
-    typeof window !== 'undefined' &&
-      ('ontouchstart' in window || navigator.maxTouchPoints > 0)
+    typeof window !== "undefined" &&
+      ("ontouchstart" in window || navigator.maxTouchPoints > 0)
   );
   const { handleDragEnd, images, filterGallery, currentHover, reset, loading } =
     useGallery();
@@ -32,25 +31,24 @@ const Gallery = () => {
   );
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       setIsTouchDevice(
-        () => 'ontouchstart' in window || navigator.maxTouchPoints > 0
+        () => "ontouchstart" in window || navigator.maxTouchPoints > 0
       );
     }
+    console.log(images);
   }, []);
 
   return (
-    <section className=''>
-      <SearchBox images={images} filter={filterGallery} reset={reset} />
+    <section className="">
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
       >
-        <div className='w-full'>
+        <div className="w-full">
           <GalleryImages
             isLoading={loading}
-            currentHover={currentHover as number}
             images={images}
             isTouchDevice={isTouchDevice}
           />

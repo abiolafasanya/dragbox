@@ -1,46 +1,39 @@
-'use client';
-import Image from 'next/image';
-// import { useSession, signIn } from 'next-auth/react';
-import { Button } from '@/components/ui/button';
-import Header from '@/components/shared/header';
-import { useRouter } from 'next/navigation';
+"use client";
+import Header from "@/components/shared/header";
+// import { useRouter } from "next/navigation";
+import { SearchInput, HomeGallery } from "./component/HomeGallery";
+import { ImageContextProvider } from "./hooks/useGallery";
+import { CarouselProvider } from "./hooks/useModal";
+
+function ContextWrapper({ children }: { children: React.ReactNode }) {
+  return <ImageContextProvider>{children}</ImageContextProvider>;
+}
 
 export default function Home() {
-  const router = useRouter();
-  const handleRedirect = () => {
-    router.push('/dashboard');
-  };
 
   return (
-    <div className=' bg-indigo-50'>
-      <main className='flex min-h-screen flex-col items-center max-w-[1280px] m-auto justify-center  py-7 sm:mb-10 md:mb-0 px-5 lg:px-20'>
-        <Header />
-        <div className='flex flex-col md:flex-row md:py-10 gap-5 justify-between items-center'>
-          <div className='flex flex-col lg:w-[60%]items-center'>
-            <Image
-              src='/welcome.gif'
-              width={350}
-              height={350}
-              alt=''
-              className='h-auto w-80 bg-transparent rounded-full'
-            />
-            <h2 className='text-2xl text-center font-semibold my-4'>
-              Drag<span className='text-stone-500'>Box</span>
-            </h2>
-          </div>
-          <div className='flex flex-col gap-5 lg:w-[40%]'>
-            <p className='text-justify'>
-              Explore an online image gallery where users can effortlessly
-              upload and share their stunning images, from landscapes to
-              captivating moments. Join us to discover a world of visual
-              storytelling and artistic expression
-            </p>
-            <Button variant={'default'} onClick={() => handleRedirect()}>
-              Get Started
-            </Button>
-          </div>
+    <ContextWrapper>
+      <CarouselProvider>
+        <div className=" bg-white">
+          <section className="bg-hero-image h-[500px] bg-cover bg-center w-full">
+            <div className="w-full h-full bg-black/50">
+              <Header />
+              <article className="w-full h-full flex items-center justify-center flex-col gap-5 backdrop-blur-sm bg-blend-overlay">
+                <div className="text-white text-2xl text-center font-medium">
+                  The best free stock photos, royalty free images & videos
+                  shared by creators.
+                </div>
+                <SearchInput />
+              </article>
+            </div>
+          </section>
+
+          <section className="px-5 max-w-[1280px] mt-20 mx-auto">
+            <h2 className="text-2xl font-semi-bold my-5">Free Stock Image</h2>
+            <HomeGallery />
+          </section>
         </div>
-      </main>
-    </div>
+      </CarouselProvider>
+    </ContextWrapper>
   );
 }

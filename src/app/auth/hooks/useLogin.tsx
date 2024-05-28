@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import * as z from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { signIn } from 'next-auth/react';
-import { usePathname, useRouter } from 'next/navigation';
-import { useState } from 'react';
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
+import { useAuth } from "@/hooks/auth";
 
 const formSchema = z.object({
   username: z.string().email().nonempty().max(50).trim(),
@@ -15,41 +15,45 @@ const formSchema = z.object({
 type FormSchemaType = z.infer<typeof formSchema>;
 
 const defaultValues: FormSchemaType = {
-  username: '',
-  password: '',
+  username: "",
+  password: "",
 };
 
 const useLogin = () => {
-  const pathName = usePathname();
   const router = useRouter();
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
+  const { login, status } = useAuth();
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
     defaultValues,
   });
 
-  async function onSubmit(values: FormSchemaType) {
-    setError('');
-    // console.log(values);
+  async function onLogin(values: FormSchemaType) {
+    form.control._updateFormState({ isLoading: true });
+    console.log(values);
+    setError("");
     const { password, username } = values;
-    const req = await signIn('credentials', {
-      username,
-      password,
-      redirect: false,
-      callbackUrl: `/dashboard?callbackUrl=${pathName}`,
-    });
+    await login({ email: username, password });
 
-    if (req?.error) {
-      setError(req.error);
+    setTimeout(() => {
+      form.control._updateFormState({ isLoading: status === "success" });
       form.reset();
-      return;
-    }
-    if (req?.ok) {
-      return router.push('/dashboard');
-    }
+    }, 1000);
+  }
+  async function onRegister(values: FormSchemaType) {
+    form.control._updateFormState({ isLoading: true });
+    console.log(values);
+    setError("");
+    const { password, username } = values;
+    await login({ email: username, password });
+
+    setTimeout(() => {
+      form.control._updateFormState({ isLoading: status === "success" });
+      form.reset();
+    }, 1000);
   }
 
-  return { error, form, onSubmit };
+  return { error, form, onLogin, onRegister };
 };
 
 export default useLogin;

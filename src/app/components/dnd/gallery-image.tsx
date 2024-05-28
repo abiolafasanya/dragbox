@@ -1,26 +1,27 @@
-'use client';
-import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
-import GalleryItem from './gallery-item';
-import GalleryLoader from '../gallery-loader';
-import { Fragment } from 'react';
-import { Upload } from '@prisma/client';
+"use client";
+import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
+import GalleryItem from "./gallery-item";
+import GalleryLoader from "../gallery-loader";
+import { Fragment } from "react";
+import { Upload } from "@prisma/client";
+import { ImageDataFile } from "@/types";
 
-interface Props {
+interface Props<T> {
   isLoading: boolean;
   isTouchDevice: boolean;
   currentHover: number;
-  images: Upload[];
+  images: T[];
 }
 
-const GalleryImages = ({
+function GalleryImages({
   isLoading,
   isTouchDevice,
   currentHover,
   images,
-}: Props) => {
+}: Props<ImageDataFile>) {
   if (isLoading) {
     return (
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <GalleryLoader count={4} />
       </div>
     );
@@ -28,16 +29,16 @@ const GalleryImages = ({
     return (
       <SortableContext
         strategy={rectSortingStrategy}
-        items={images.map((image, index) => ({ ...image, id: index + 1}))}
+        items={images.map((image, index) => ({ ...image, id: index + 1 }))}
       >
-        <div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <Fragment>
             {images.length > 0 &&
               images.map((image, index) => (
                 <GalleryItem
                   key={image.id}
-                  tag={image.tag}
-                  path={image.image}
+                  tag={image.alt}
+                  path={image.src.portrait}
                   index={index + 1}
                   isDraggable={!isTouchDevice}
                   currentHover={currentHover}
@@ -48,6 +49,6 @@ const GalleryImages = ({
       </SortableContext>
     );
   }
-};
+}
 
 export default GalleryImages;

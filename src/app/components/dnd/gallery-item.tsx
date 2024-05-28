@@ -52,15 +52,15 @@ const GalleryItem = ({
       onDragStart={handleDragStart}
     >
       <div
-        className={`relative flex ease-in-out transistion delay-300 rounded-lg border-2  h-48 w-full ${
+        className={`relative flex ease-in-out transistion delay-300 rounded-lg border-2  w-full ${
           (currentHover as number) === index ? 'bg-stone-200' : ''
         }`}
       >
         <Image
           src={path}
-          width={300}
-          height={300}
-          className='w-full h-full object-cover object-center'
+          width={400}
+          height={400}
+          className='w-full h-[400px] object-cover object-center'
           alt='images'
           draggable={false}
         />
