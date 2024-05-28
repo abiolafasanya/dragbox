@@ -3,9 +3,9 @@
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useAuth } from "@/hooks/auth";
+
 
 const formSchema = z.object({
   email: z.string().email().nonempty().max(50).trim(),
@@ -21,7 +21,7 @@ const defaultValues: FormSchemaType = {
 
 const useLogin = () => {
   const [error, setError] = useState("");
-  const { login, status } = useAuth();
+  const { login, register, status } = useAuth();
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
     defaultValues,
@@ -42,7 +42,7 @@ const useLogin = () => {
     form.control._updateFormState({ isLoading: true });
     setError("");
     const { password, email } = values;
-    await login({ email, password });
+    await register({ email, password });
 
     setTimeout(() => {
       form.control._updateFormState({ isLoading: status === "success" });

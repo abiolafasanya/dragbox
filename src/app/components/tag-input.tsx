@@ -49,7 +49,7 @@ const TagsInput: React.FC<{ setValue: (val: string[]) => void }> = ({
           className="bg-slate-100 flex gap-2 text-sm rounded py-1 px-2"
         >
           {tag}
-          <button className="text-red-500" onClick={() => removeTag(tag)}>
+          <button className="text-black-500" onClick={() => removeTag(tag)}>
             x
           </button>
         </div>

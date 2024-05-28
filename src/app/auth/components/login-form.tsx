@@ -166,7 +166,7 @@ const LoginForm = ({
                     <Loader2 />
                   </span>
                 )}
-                <span>Login</span>
+                <span>Create Account</span>
               </Button>
             </div>
           </form>
