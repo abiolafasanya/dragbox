@@ -7,7 +7,7 @@
 
 This project is an image gallery built using React, Firebase, and other technologies. It includes features like a responsive carousel, thumbnail navigation, user authentication, and Firestore integration.
 
-## What to skip creating an account use this credential
+## Skip creating an account and use this credential to login
 + email: user@example.com
 + password: 1Password
 ## Table of Contents
