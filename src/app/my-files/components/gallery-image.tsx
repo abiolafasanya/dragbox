@@ -10,7 +10,7 @@ import { useModal } from "@/app/(Home)/hooks/useModal";
 import CarouselModal, {
   UserCarouselModal,
 } from "@/app/(Home)/component/carousel";
-import { Copy, Facebook, Linkedin, Share2, Twitter } from "lucide-react";
+import { Copy, Edit, Facebook, Linkedin, Share2, Twitter } from "lucide-react";
 import {
   FacebookShareButton,
   LinkedinShareButton,
@@ -66,6 +66,9 @@ function GalleryImages({
                       isDraggable={!isTouchDevice}
                       onSelect={() => handleSelectImage(index)}
                     />
+                    <div id="edit">
+                      <Edit />
+                    </div>
                     <div className="w-full absolute bottom-0 z-50 bg-white shadow-lg flex items-center justify-center space-x-2 p-2">
                       <FacebookShareButton
                         url={image.imageUrl}

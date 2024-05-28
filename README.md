@@ -2,6 +2,9 @@
 
 ### Guide
 
+## Video
+[!Watch the Video]("https://jam.dev/c/ecfd4654-00cc-423c-a404-329259b50060")
+
 This project is an image gallery built using React, Firebase, and other technologies. It includes features like a responsive carousel, thumbnail navigation, user authentication, and Firestore integration.
 
 ## Table of Contents
