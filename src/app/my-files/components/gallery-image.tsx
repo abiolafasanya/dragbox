@@ -10,6 +10,14 @@ import { useModal } from "@/app/(Home)/hooks/useModal";
 import CarouselModal, {
   UserCarouselModal,
 } from "@/app/(Home)/component/carousel";
+import { Copy, Facebook, Linkedin, Share2, Twitter } from "lucide-react";
+import {
+  FacebookShareButton,
+  LinkedinShareButton,
+  TwitterShareButton,
+} from "react-share";
+import { handleShare } from "@/utility/share";
+import { handleCopyContent } from "@/utility/copy";
 // import CarouselModal from "./carousel";
 // import { useModal } from "../hooks/useModal";
 
@@ -49,7 +57,7 @@ function GalleryImages({
             <Fragment>
               {images.length > 0 &&
                 images.map((image, index) => (
-                  <Fragment key={index}>
+                  <article key={index} className="relative flex flex-col gap-2">
                     <GalleryItem
                       key={image.uid}
                       tag={image.description}
@@ -58,7 +66,45 @@ function GalleryImages({
                       isDraggable={!isTouchDevice}
                       onSelect={() => handleSelectImage(index)}
                     />
-                  </Fragment>
+                    <div className="w-full absolute bottom-0 z-50 bg-white shadow-lg flex items-center justify-center space-x-2 p-2">
+                      <FacebookShareButton
+                        url={image.imageUrl}
+                        title={image.name}
+                      >
+                        <Facebook size={24} />
+                      </FacebookShareButton>
+                      <TwitterShareButton
+                        url={image.imageUrl}
+                        title={image.name}
+                      >
+                        <Twitter size={24} />
+                      </TwitterShareButton>
+                      <LinkedinShareButton
+                        url={image.imageUrl}
+                        title={image.name}
+                      >
+                        <Linkedin size={24} />
+                      </LinkedinShareButton>
+                      <button
+                        onClick={(e) => handleCopyContent(e, image.imageUrl)}
+                        className="copy-button"
+                        aria-label="Copy image link"
+                      >
+                        <Copy size={24} />
+                      </button>
+                      <button
+                        onClick={() =>
+                          handleShare({
+                            text: image.description,
+                            title: image.name,
+                            url: image.imageUrl,
+                          })
+                        }
+                      >
+                        <Share2 />
+                      </button>
+                    </div>
+                  </article>
                 ))}
             </Fragment>
           </div>

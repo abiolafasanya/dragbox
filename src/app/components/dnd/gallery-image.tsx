@@ -3,7 +3,6 @@ import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
 import GalleryItem from "./gallery-item";
 import GalleryLoader from "../gallery-loader";
 import { Fragment } from "react";
-import { Upload } from "@prisma/client";
 import { ImageDataFile } from "@/types";
 
 interface Props<T> {
