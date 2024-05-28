@@ -73,16 +73,6 @@ Contributions are welcome! If you find any issues or want to add new features, f
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
-
-Feel free to add more sections, elaborate on specific features, and include screenshots or GIFs to make your README even more appealing. Good luck with your image gallery project! 😊
-
-Source: Conversation with Copilot, 28/05/2024
-(1) React Responsive Carousel Image Gallery with Thumbnails Tutorial. https://www.freakyjolly.com/react-responsive-carousel-image-gallery-with-thumbnails-using-components/.
-(2) Build an elegant gallery with React-Responsive-Carousel. https://medium.com/stackanatomy/build-an-elegant-gallery-with-react-responsive-carousel-926c4f34768e.
-(3) How to Build an Image Carousel with React and Framer Motion. https://www.freecodecamp.org/news/build-an-image-carousel-with-react-and-framer-motion/.
-(4) undefined. https://picsum.photos/700/400?img=1.
-(5) undefined. https://picsum.photos/700/400?img=2.
-(6) undefined. https://picsum.photos/700/400?img=3.
 > clone the repository
 ```bash
 git clone <repo url>
