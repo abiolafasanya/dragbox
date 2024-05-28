@@ -6,6 +6,10 @@ import { Fragment } from "react";
 import { ImageDataFile } from "@/types";
 import GalleryLoader from "@/app/components/gallery-loader";
 import { DocumentData } from "firebase/firestore";
+import { useModal } from "@/app/(Home)/hooks/useModal";
+import CarouselModal, {
+  UserCarouselModal,
+} from "@/app/(Home)/component/carousel";
 // import CarouselModal from "./carousel";
 // import { useModal } from "../hooks/useModal";
 
@@ -27,14 +31,14 @@ function GalleryImages({
       </div>
     );
   } else {
-    // const { toggleModal, updateModalIndex } = useModal();
+    const { toggleModal, updateModalIndex } = useModal();
     function handleSelectImage(index: number) {
-      // if (updateModalIndex) {
-      //   updateModalIndex(index);
-      //   toggleModal();
-      // }
+      if (updateModalIndex) {
+        updateModalIndex(index);
+        toggleModal();
+      }
     }
-    console.log(images);
+
     return (
       <>
         <SortableContext
@@ -59,7 +63,7 @@ function GalleryImages({
             </Fragment>
           </div>
         </SortableContext>
-        {/* <CarouselModal /> */}
+        <UserCarouselModal images={images} />
       </>
     );
   }

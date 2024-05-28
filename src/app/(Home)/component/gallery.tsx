@@ -36,7 +36,6 @@ const Gallery = () => {
         () => "ontouchstart" in window || navigator.maxTouchPoints > 0
       );
     }
-    console.log(images);
   }, []);
 
   return (
