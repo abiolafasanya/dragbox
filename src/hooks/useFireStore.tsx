@@ -6,6 +6,7 @@ import { useState } from "react";
 import { v4 as uuid } from "uuid";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { toast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 type UploadTypeData = {
   name: string;
@@ -19,6 +20,7 @@ export const useFireStore = ({reset}: {reset: () => void}) => {
   const { user } = useAuth();
   const [uploading, setUploading] = useState(false);
   const [uploads, setUploads] = useState<DocumentData>();
+  const router = useRouter()
   async function uploadFn({
     name,
     tags,
@@ -37,13 +39,13 @@ export const useFireStore = ({reset}: {reset: () => void}) => {
         createdAt: new Date(Date.now()),
         uid: user?.uid,
       };
-      console.log(body);
       const docRef = await addDoc(collection(db, collectionName), body);
       console.log("Document written with ID: ", docRef.id);
       if (docRef.id) {
         setUploading(false);
         toast({ description: "File upload was successful" });
         reset();
+        router.push('/my-files')
       }
     } catch (e) {
       console.error("Error adding document: ", e);

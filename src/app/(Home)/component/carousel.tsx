@@ -68,13 +68,6 @@ export default function CarouselModal() {
   const { images } = useGallery();
   const { modalIndex, isOpen, toggleModal, updateModalIndex } = useModal();
 
-  useEffect(() => {
-    // Update the current image index when the selected image index changes
-    if (updateModalIndex) {
-      updateModalIndex(modalIndex);
-    }
-  }, [modalIndex]);
-
   const handleNextImage = () => {
     updateModalIndex((modalIndex + 1) % images.length);
   };
@@ -84,6 +77,36 @@ export default function CarouselModal() {
   };
 
   if (!isOpen) return null;
+
+  useEffect(() => {
+    if (!updateModalIndex) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (!isOpen) return;
+
+      switch (event.key) {
+        case "ArrowRight":
+          updateModalIndex((modalIndex + 1) % images.length);
+          break;
+        case "ArrowLeft":
+          updateModalIndex(
+            modalIndex === 0 ? images.length - 1 : modalIndex - 1
+          );
+          break;
+        case "Escape":
+          toggleModal();
+          break;
+        default:
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [modalIndex, isOpen, images.length, toggleModal, updateModalIndex]);
 
   return (
     <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-40">

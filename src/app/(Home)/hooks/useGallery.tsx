@@ -2,7 +2,6 @@
 
 import { useToast } from "@/components/ui/use-toast";
 import Axios from "@/lib/Axios";
-import { Upload } from "@prisma/client";
 import {
   Dispatch,
   MutableRefObject,
@@ -14,10 +13,6 @@ import {
   useState,
 } from "react";
 import { ImageDataFile } from "@/types/";
-
-interface Props {
-  uploads: Upload[];
-}
 
 interface I_ImageContext {
   images: ImageDataFile[];

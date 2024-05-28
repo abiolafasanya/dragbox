@@ -4,7 +4,7 @@ import Gallery from "./gallery";
 import { Input } from "@/components/ui/input";
 import { useGallery } from "../hooks/useGallery";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {  useModal } from "../hooks/useModal";
+import { useModal } from "../hooks/useModal";
 
 export function HomeGallery() {
   return (
@@ -33,7 +33,7 @@ export function SearchInput() {
   }
 
   return (
-    <section className="px-5 md:max-w-3xl w-full bg-white rounded-lg py-2  relative">
+    <section className="w-full md:max-w-3xl mx-auto bg-white rounded-lg py-2 relative">
       <Input
         placeholder="Search Images"
         className="text-base w-full focus-visible:ring-transparent  outline-none border-none bg-transparent border-transparent focus-visible:ring-0"

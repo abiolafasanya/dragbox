@@ -40,20 +40,23 @@ export default function UploadPage() {
     handleSelectFile(files);
   };
 
+  const content = {
+    mainText: `Capture life’s moments with your photos and videos, and share them
+            to spread joy across the world`,
+  };
   return (
     <main className="bg-white w-full">
-      <Header />
+      <Header linkClass="text-slate-900 text-base" />
 
       {!upload && (
-        <section className="max-w-6xl h-full md:mt-24 mx-auto flex flex-col gap-5 items-center justify-center">
-          <h2 className="text-2xl font-semibold text-center text-balance px-24">
-            Capture life’s moments with your photos and videos, and share them
-            to spread joy across the world
+        <section className="max-w-6xl min-h-screen mx-auto flex flex-col gap-5 items-center justify-center">
+          <h2 className="text-2xl font-semibold text-center text-balance px-5 line-clamp-2 md:line-clamp-none md:px-24 ">
+            {content.mainText}
           </h2>
           <div
             onDragOver={handleDragOver}
             onDrop={handleDrop}
-            className="w-2/4 h-[300px] flex flex-col gap-3 items-center justify-center mx-auto border border-dashed p-5"
+            className="w-4/5 md:w-2/4 h-[300px] flex flex-col gap-3 items-center justify-center mx-auto border-2 border-dashed p-5"
           >
             <FileUpIcon className="cursor-pointer" size={48} />
             <h2 className="text-2xl text-balance text-center">
@@ -78,7 +81,7 @@ export default function UploadPage() {
       )}
 
       {upload && (
-        <section className="relative max-w-6xl mx-auto flex flex-col gap-5 items-center justify-center">
+        <section className="px-5 relative max-w-6xl mx-auto flex flex-col gap-5 items-center justify-center">
           <UploadComponent url={upload} reset={reset} />
         </section>
       )}

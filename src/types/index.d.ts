@@ -32,6 +32,8 @@ export type UploadResponseType = {
   tags: string[];
   description: string;
   name: string;
-  image: string;
+  imageUrl: string;
+  uploadedBy: string;
   createdAt: Date;
+  uid: string;
 };

@@ -14,16 +14,18 @@ export default function Home() {
   return (
     <ContextWrapper>
       <CarouselProvider>
-        <div className=" bg-white">
+        <div className=" bg-white overflow-clip">
           <section className="bg-hero-image h-[500px] bg-cover bg-center w-full">
             <div className="w-full h-full bg-black/50">
               <Header />
-              <article className="w-full h-full flex items-center justify-center flex-col gap-5 backdrop-blur-sm bg-blend-overlay">
-                <div className="text-white text-2xl text-center font-medium">
+              <article className="w-full h-full flex items-center justify-center flex-col gap-5 bg-blend-overlay">
+                <div className="text-white max-w-2xl text-2xl text-center font-semibold">
                   The best free stock photos, royalty free images & videos
                   shared by creators.
                 </div>
-                <SearchInput />
+                <div className="w-full px-5">
+                  <SearchInput />
+                </div>
               </article>
             </div>
           </section>
