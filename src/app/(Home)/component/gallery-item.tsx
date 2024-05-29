@@ -4,7 +4,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import Image from "next/image";
 import { CSS } from "@dnd-kit/utilities";
 import { handleCopyContent } from "@/utility/copy";
-import { Copy } from "lucide-react";
+import { Copy, Edit } from "lucide-react";
 import Thumbnail from "./thumbnail";
 
 type ImageItemProps = {

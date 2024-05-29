@@ -7,7 +7,7 @@ import { ImageDataFile } from "@/types";
 import GalleryLoader from "@/app/components/gallery-loader";
 import CarouselModal from "./carousel";
 import { useModal } from "../hooks/useModal";
-import { Facebook, Twitter, Linkedin, Copy, Share2 } from "lucide-react";
+import { Facebook, Twitter, Linkedin, Copy, Share2, Edit } from "lucide-react";
 import {
   FacebookShareButton,
   TwitterShareButton,
@@ -49,7 +49,7 @@ function GalleryImages({
           strategy={rectSortingStrategy}
           items={images.map((image, index) => ({ ...image, id: index + 1 }))}
         >
-          <div className="relative group w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+          <div className="relative group w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             <Fragment>
               {images.length > 0 &&
                 images.map((image, index) => (
@@ -62,22 +62,22 @@ function GalleryImages({
                       isDraggable={!isTouchDevice}
                       onSelect={() => handleSelectImage(index)}
                     />
-                    <div className="w-full absolute bottom-0 z-50 bg-white shadow-lg flex items-center justify-center space-x-2 p-2">
+                    <div className="w-full absolute bottom-0 z-50 bg-white/50 shadow-lg flex items-center justify-evenly space-x-2 p-2">
                       <FacebookShareButton url={image.url} title={image.alt}>
-                        <Facebook size={24} />
+                        <Facebook size={16} />
                       </FacebookShareButton>
                       <TwitterShareButton url={image.url} title={image.alt}>
-                        <Twitter size={24} />
+                        <Twitter size={16} />
                       </TwitterShareButton>
                       <LinkedinShareButton url={image.url} title={image.alt}>
-                        <Linkedin size={24} />
+                        <Linkedin size={16} />
                       </LinkedinShareButton>
                       <button
                         onClick={(e) => handleCopyContent(e, image.url)}
                         className="copy-button"
                         aria-label="Copy image link"
                       >
-                        <Copy size={24} />
+                        <Copy size={16} />
                       </button>
                       <button
                         onClick={() =>
@@ -88,7 +88,7 @@ function GalleryImages({
                           })
                         }
                       >
-                        <Share2 />
+                        <Share2 size={16} />
                       </button>
                     </div>
                   </article>
