@@ -3,7 +3,9 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { toast } from "@/components/ui/use-toast";
 import { useEditModal } from "@/hooks/useEditModal";
+import { setCanvasPreview } from "@/utility/canvas-previes";
 import {
+  CropIcon,
   FlipHorizontal,
   FlipVertical,
   ImageIcon,
@@ -11,8 +13,14 @@ import {
   RotateCw,
   X,
 } from "lucide-react";
-import ImageElement from "next/image";
+import Image from "next/image";
 import React, { ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import ReactCrop, {
+  Crop,
+  centerCrop,
+  convertToPixelCrop,
+  makeAspectCrop,
+} from "react-image-crop";
 import { twMerge } from "tailwind-merge";
 
 export default function EditModal() {
@@ -27,6 +35,13 @@ export default function EditModal() {
   const [sepia, setSepia] = useState<number[]>([0]);
   const [saturate, setSaturate] = useState<number[]>([100]);
   const [hue, setHue] = useState<number[]>([0]);
+  const [crop, setCrop] = useState<Crop>();
+  const [imageSrc, setImageSrc] = useState("");
+
+  useEffect(() => {
+    if (!selectedItem?.imageUrl) return;
+    setImageSrc(selectedItem?.imageUrl);
+  }, [selectedItem]);
 
   function reset() {
     setBrightness([100]);
@@ -54,12 +69,57 @@ export default function EditModal() {
     setFlipVertical((prevFlip) => !prevFlip);
   }
 
+  function onImageLoad(e: React.SyntheticEvent<HTMLImageElement, Event>) {
+    const { naturalWidth: width, naturalHeight: height } = e.currentTarget;
+    console.log(width, height);
+
+    const crop = centerCrop(
+      makeAspectCrop(
+        {
+          unit: "%",
+          width: 50,
+        },
+        16 / 9,
+        width,
+        height
+      ),
+      width,
+      height
+    );
+
+    setCrop(crop);
+  }
+
+  function handleCrop() {
+    const imgSource = imageRef.current;
+    if (!imgSource || !crop) return;
+    const canvas = document.createElement("canvas");
+    const pixelCrop = convertToPixelCrop(
+      crop,
+      imageRef.current.width,
+      imageRef.current.height
+    );
+    const { canvasElement, ctx } = setCanvasPreview({
+      crop: pixelCrop,
+      image: imageRef.current,
+      canvas,
+    });
+    const base64Url = canvasElement.toDataURL("image/jpg");
+    setImageSrc(base64Url);
+  }
+
   // Call this function when the 'Save Changes' button is clicked
 
   function savechange() {
     if (!selectedItem) return;
     // Create a canvas element
-    if (!imageRef?.current?.src) return;
+    if (!imageRef?.current?.src || !crop) return;
+
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    if (!ctx) {
+      throw new Error("No 2d context");
+    }
 
     // coming soon implementation to save changes
     toast({ description: "Feature is coming soon..." });
@@ -155,22 +215,33 @@ export default function EditModal() {
             <div className="w-full h-full p-5">
               <h2 className="text-base font-semibold">Image preview</h2>
               <article className="relative border mt-5 w-full flex flex-col items-center justify-center h-[250px] overflow-clip">
-                {!selectedItem && <ImageIcon size={100} />}
-                {selectedItem && (
-                  <ImageElement
-                    ref={imageRef}
-                    src={selectedItem.imageUrl}
-                    alt={selectedItem.description}
-                    width={300}
-                    height={300}
-                    className={`w-full h-full object-cover object-center`}
-                    style={transformStyles}
-                    loading="lazy"
-                  />
+                {!imageSrc && <ImageIcon size={100} />}
+                {imageSrc && selectedItem && (
+                  <ReactCrop
+                    crop={crop}
+                    onChange={(c) => setCrop(c)}
+                    className="w-full full"
+                  >
+                    <Image
+                      ref={imageRef}
+                      src={imageSrc}
+                      alt={selectedItem.description}
+                      // onLoad={onImageLoad}
+                      width={300}
+                      height={300}
+                      className={`w-full h-full object-cover object-center`}
+                      style={transformStyles}
+                      loading="lazy"
+                      priority={false}
+                    />
+                  </ReactCrop>
                 )}
               </article>
 
-              <div id="controls-preview" className="py-2 space-x-3">
+              <div
+                id="controls-preview"
+                className="py-2 flex items-center space-x-3"
+              >
                 <Button variant={"outline"} onClick={handleFlipHorizontal}>
                   <FlipHorizontal />
                 </Button>
@@ -182,6 +253,9 @@ export default function EditModal() {
                 </Button>
                 <Button variant={"outline"} onClick={handleRotateRight}>
                   <RotateCw />
+                </Button>
+                <Button variant={"outline"} onClick={() => handleCrop()}>
+                  <CropIcon />
                 </Button>
               </div>
 

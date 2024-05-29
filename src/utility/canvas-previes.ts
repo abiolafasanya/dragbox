@@ -40,4 +40,8 @@ export const setCanvasPreview = ({
     canvas.width,
     canvas.height
   );
+
+  // ctx.restore();
+
+  return { ctx, canvasElement: canvas };
 };

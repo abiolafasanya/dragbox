@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/auth";
 import { CarouselProvider } from "../(Home)/hooks/useModal";
 import { EditModalContextProvider } from "@/hooks/useEditModal";
 import EditModal from "./components/edit-modal";
+import "react-image-crop/dist/ReactCrop.css";
 
 export default function MyFilesPage() {
   const { user } = useAuth();
