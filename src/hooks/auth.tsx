@@ -1,6 +1,7 @@
 "use client";
 import { toast } from "@/components/ui/use-toast";
 import { auth } from "@/lib/firebase";
+import { FirebaseError } from "firebase/app";
 import {
   User,
   createUserWithEmailAndPassword,
@@ -8,6 +9,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
+import { FirestoreError } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import {
   ReactNode,
@@ -45,10 +47,11 @@ function AuthProvider({ children }: { children: ReactNode }) {
       .then(() => {
         // Sign-out successful.
         setUser(null);
-        setStatus("loading")
-        toast({title: "Signed out"})
+        setStatus("loading");
+        toast({ title: "Signed out" });
       })
       .catch((error) => {
+        toast({ title: "An error occured", description: error?.message });
         // An error happened.
       });
   }
@@ -67,12 +70,12 @@ function AuthProvider({ children }: { children: ReactNode }) {
         email,
         password
       );
-      console.log(loginRequest.user);
       setUser(loginRequest.user);
       setStatus("success");
       toast({ title: "Registration Successful" });
     } catch (error) {
       if (error instanceof Error) {
+        toast({ title: "Error", description: error.message});
         console.log(error);
       }
       setStatus("error");
@@ -90,12 +93,11 @@ function AuthProvider({ children }: { children: ReactNode }) {
         // ...
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
         setStatus("error");
-        console.log(
-          `{Error => Message: ${errorMessage}, ErrorCode: ${errorCode}}`
-        );
+        if (error instanceof Error) {
+          console.error(error);
+          toast({ title: "Error", description: error.message });
+        }
       });
   }
 
