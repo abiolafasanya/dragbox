@@ -111,9 +111,7 @@ export default function EditModal() {
   // Call this function when the 'Save Changes' button is clicked
 
   function savechange() {
-    if (!selectedItem) return;
-    // Create a canvas element
-    if (!imageRef?.current?.src || !crop) return;
+    if (!selectedItem || !imageRef.current || !crop) return;
 
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
@@ -121,9 +119,42 @@ export default function EditModal() {
       throw new Error("No 2d context");
     }
 
-    // coming soon implementation to save changes
-    toast({ description: "Feature is coming soon..." });
+    // Set canvas dimensions to match the image dimensions
+    canvas.width = imageRef.current.width;
+    canvas.height = imageRef.current.height;
+
+    // Apply the transformations to the canvas context
+    ctx.filter = transformStyles.filter;
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.rotate((rotation * Math.PI) / 180);
+    ctx.scale(flipHorizontal ? -1 : 1, flipVertical ? -1 : 1);
+    ctx.drawImage(imageRef.current, -canvas.width / 2, -canvas.height / 2);
+
+    // Convert the canvas to a Blob object
+    canvas.toBlob(function (blob) {
+      if (!blob) {
+        toast({ description: "Failed to create image file." });
+        return;
+      }
+
+      // Create a URL for the Blob object
+      const url = URL.createObjectURL(blob);
+
+      // Create a temporary anchor element and trigger the download
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = selectedItem.description || "edited-image.jpg";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      // Revoke the object URL to free up resources
+      URL.revokeObjectURL(url);
+
+      toast({ description: "Image downloaded successfully!" });
+    }, "image/jpeg");
   }
+
 
   if (!openEditModal) return null;
 
@@ -226,7 +257,7 @@ export default function EditModal() {
                       ref={imageRef}
                       src={imageSrc}
                       alt={selectedItem.description}
-                      // onLoad={onImageLoad}
+                      onLoad={onImageLoad}
                       width={300}
                       height={300}
                       className={`w-full h-full object-cover object-center`}
@@ -269,7 +300,7 @@ export default function EditModal() {
                     Close
                   </Button>
                   <Button type="button" onClick={savechange}>
-                    Save Changes
+                    Download
                   </Button>
                 </article>
               </div>
