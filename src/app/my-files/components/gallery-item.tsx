@@ -69,15 +69,6 @@ const GalleryItem = ({
             currentHover === index ? "opacity-50 bg-black" : "opacity-100"
           } transition-all duration-300`}
         ></div>
-        {/* <Thumbnail
-          src={path}
-          alt={"images"}
-          className={`absolute bottom-0 right-0  transition-all duration-500 ease-in-out ${
-            currentHover === index
-              ? "opacity-100 "
-              : "opacity-0 translate-y-full translate-x-20"
-          }`}
-        /> */}
       </div>
     </article>
   );

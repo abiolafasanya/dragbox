@@ -13,7 +13,6 @@ import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import GalleryImages from "./gallery-image";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { DocumentData } from "firebase/firestore";
-// import {useGallery} from "../hooks/useGallery";
 
 function Gallery<T extends DocumentData[]>({ images: data }: { images: T }) {
   const [isTouchDevice, setIsTouchDevice] = useState(
@@ -39,7 +38,6 @@ function Gallery<T extends DocumentData[]>({ images: data }: { images: T }) {
         () => "ontouchstart" in window || navigator.maxTouchPoints > 0
       );
     }
-    // console.log(images);
   }, []);
 
   const handleDragEnd = ({ active, over }: any) => {
@@ -63,34 +61,12 @@ function Gallery<T extends DocumentData[]>({ images: data }: { images: T }) {
     setImages(imagesCopy);
   };
 
-  const dragItem = useRef<any>(null);
-  const dragOverItem = useRef<any>(null);
-  const [currentHover, setCurrentHover] = useState<number | null>(null);
-
-  const handleDragEnter = (index: number) => {
-    dragOverItem.current = index;
-    setCurrentHover(index);
-  };
-
-  const handlSorting = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    const _images = [...images];
-    const draggedItemContent = _images.splice(dragItem.current, 1)[0];
-    _images.splice(dragOverItem.current, 0, draggedItemContent);
-
-    dragItem.current = null;
-    dragOverItem.current = null;
-    setCurrentHover(null);
-    setImages(_images);
-  };
-
   return (
     <section className="">
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
-        
       >
         <div className="w-full">
           <GalleryImages

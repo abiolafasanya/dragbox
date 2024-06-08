@@ -9,6 +9,7 @@ import { storage } from "@/lib/firebase";
 import { v4 as uuid } from "uuid";
 import ReactCrop, {
   centerCrop,
+  convertToPixelCrop,
   makeAspectCrop,
   type Crop,
 } from "react-image-crop";
@@ -16,10 +17,11 @@ import { CropIcon, Loader2 } from "lucide-react";
 import { UploadBodyType } from "@/types";
 import { Label } from "@/components/ui/label";
 import { useFireStore } from "@/hooks/useFireStore";
-// import { setCanvasPreview } from "@/utility/canvas-previes";
+import { setCanvasPreview } from "@/utility/canvas-previes";
 
 export function UploadComponent({ url = "", reset }: { url: string, reset: () => void }) {
   const imageRef = useRef<HTMLImageElement>(null);
+  const [imgSource, setImageSrc] = useState(url)
   // const canvasRef = useRef<HTMLCanvasElement>(null);
   const { uploading, setUploading, uploads, handleUploadImage } =
     useFireStore({reset});
@@ -52,10 +54,26 @@ export function UploadComponent({ url = "", reset }: { url: string, reset: () =>
   }
 
   function handleUpload() {
+     const imgSource = imageRef.current;
+     if (!imgSource || !crop) return;
+    //  console.log("checking", imgSource, crop)
+     const canvas = document.createElement("canvas");
+     const pixelCrop = convertToPixelCrop(
+       crop,
+       imageRef.current.width,
+       imageRef.current.height
+     );
+     const { canvasElement, ctx } = setCanvasPreview({
+       crop: pixelCrop,
+       image: imageRef.current,
+       canvas,
+     });
+     const base64Url = canvasElement.toDataURL("image/jpg");
+     setImageSrc(base64Url);
     const values = {
       tags: addTag,
       name,
-      url,
+      url: base64Url,
       collectionName: "uploads",
       description,
     };
@@ -63,34 +81,15 @@ export function UploadComponent({ url = "", reset }: { url: string, reset: () =>
   }
 
   const [crop, setCrop] = useState<Crop>();
-  const [enableCrop, setEnableCrop] = useState(false);
 
   return (
     <section className="max-w-2xl w-full relative my-12">
       <div className="flex gap-4  h-full justify-center items-center flex-wrap">
-        {enableCrop && (
-          <ReactCrop crop={crop} onChange={(c) => setCrop(c)}>
-            <div className="flex flex-col gap-2">
-              <Image
-                ref={imageRef}
-                src={url}
-                height={300}
-                width={300}
-                alt=""
-                className="object-center object-cover w-full"
-                priority={false} // Set to true if you want to prioritize this image
-                loading="lazy" // This enables lazy loading
-              />
-              <div className="flex">
-                <Button onClick={() => setEnableCrop(false)}>Cancel</Button>
-              </div>
-            </div>
-          </ReactCrop>
-        )}
-        {!enableCrop && (
+        <ReactCrop crop={crop} onChange={(c) => setCrop(c)}>
           <div className="flex flex-col gap-2">
             <Image
-              src={url}
+              ref={imageRef}
+              src={imgSource}
               height={300}
               width={300}
               alt=""
@@ -99,14 +98,10 @@ export function UploadComponent({ url = "", reset }: { url: string, reset: () =>
               priority={false} // Set to true if you want to prioritize this image
               loading="lazy" // This enables lazy loading
             />
-
-            <div className="flex">
-              <Button onClick={() => setEnableCrop(true)}>
-                Crop <CropIcon />
-              </Button>
-            </div>
+           
           </div>
-        )}
+        </ReactCrop>
+       
 
         <article className="w-full flex flex-col gap-2">
           <div>
